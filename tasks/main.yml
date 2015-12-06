@@ -1,0 +1,22 @@
+---
+- name: Installing python-setuptools
+  action: "{{ ansible_pkg_mgr }} pkg={{ item }} state=present"
+  with_items:
+    - python-setuptools
+
+- name: Installing pip
+  easy_install:
+    name: pip
+
+- name: Installing specified docker-compose
+  pip:
+    name: docker-compose
+    version: "{{ docker_compose_version }}"
+    state: present
+  when: docker_compose_version != ""
+
+- name: Installing latest docker-compose
+  pip:
+    name: docker-compose
+    state: latest
+  when: docker_compose_version == ""
