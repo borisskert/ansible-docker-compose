@@ -24,5 +24,5 @@ Example with parameters
 
     - hosts: servers
       roles:
-         - ansible-docker-compose
+         - role: ansible-docker-compose
            docker_compose_version: 1.5.2
