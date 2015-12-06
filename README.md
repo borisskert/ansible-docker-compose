@@ -20,7 +20,7 @@ Example without parameters
       roles:
          - ansible-docker-compose
 
-Example without parameters
+Example with parameters
 
     - hosts: servers
       roles:
