@@ -1,7 +1,7 @@
 ---
-- hosts: vm_server
-  remote_user: ubuntu
-  sudo: yes
+- hosts: test_machine
+  become: yes
+
   roles:
-#    - { role: '.', docker_compose_version: 1.4.2 }
-    - { role: '.' }
+    - role: '.'
+      #docker_compose_version: 1.4.2

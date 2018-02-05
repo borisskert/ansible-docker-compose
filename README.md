@@ -1,5 +1,5 @@
-ansible-docker-compose
-=========
+install-docker-compose
+======================
 
 Installs docker-compose on ubuntu.
 
@@ -18,11 +18,11 @@ Example without parameters
 
     - hosts: servers
       roles:
-         - ansible-docker-compose
+         - install-docker-compose
 
 Example with parameters
 
     - hosts: servers
       roles:
-         - role: ansible-docker-compose
+         - role: install-docker-compose
            docker_compose_version: 1.5.2
