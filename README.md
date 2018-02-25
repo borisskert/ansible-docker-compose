@@ -1,4 +1,4 @@
-install-docker-compose
+ansible-docker-compose
 ======================
 
 Installs docker-compose on ubuntu.
