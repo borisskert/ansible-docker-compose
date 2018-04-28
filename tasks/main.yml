@@ -1,22 +1,15 @@
 ---
-- name: Installing python-setuptools
-  action: "{{ ansible_pkg_mgr }} pkg={{ item }} state=present"
-  with_items:
-    - python-setuptools
+- include: estimate_installed_version.yml
 
-- name: Installing pip
-  easy_install:
-    name: pip
+- include: estimate_latest_version.yml
+  when: version == ''
 
-- name: Installing specified docker-compose
-  pip:
-    name: docker-compose
-    version: "{{ docker_compose_version }}"
-    state: present
-  when: docker_compose_version != ""
+- include: estimate_version_to_be_installed.yml
 
-- name: Installing latest docker-compose
-  pip:
-    name: docker-compose
-    state: latest
-  when: docker_compose_version == ""
+- name: Download bin file
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{version_to_be_installed}}/docker-compose-{{kernel_name}}-{{machine}}"
+    dest: "{{docker_compose_bin_path}}"
+    mode: 0755
+    force: yes
+  when: installed_version is not defined or version_to_be_installed != installed_version

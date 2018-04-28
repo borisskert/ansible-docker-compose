@@ -1,2 +1,5 @@
 ---
-docker_compose_version: ""
+version: ''
+docker_compose_bin_path: /usr/local/bin/docker-compose
+kernel_name: Linux
+machine: x86_64
