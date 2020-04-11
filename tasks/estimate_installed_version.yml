@@ -8,6 +8,7 @@
   shell: "{{docker_compose_bin_path}} --version"
   when: docker_compose_bin.stat.exists
   register: docker_compose_installed_version
+  changed_when: false
 
 - name: Try to parse installed version
   set_fact:
