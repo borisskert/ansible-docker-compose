@@ -1,0 +1,32 @@
+---
+- hosts: test_machine
+  become: yes
+
+  roles:
+    - role: install-docker
+    - role: ansible-docker-compose
+
+  post_tasks:
+    - name: test -- create docker-compose file
+      copy:
+        content: |
+          version: '3'
+          services:
+            nginx:
+              image: nginx:1.17.9-alpine
+              ports:
+                - 8080:80
+                - 8443:443
+        dest: /tmp/docker-compose.yml
+
+    - name: test -- pull nginx docker image
+      shell: docker-compose pull
+      args:
+        chdir: /tmp
+      changed_when: false
+
+    - name: test -- run nginx docker image
+      shell: docker-compose up -d
+      args:
+        chdir: /tmp
+      changed_when: false
