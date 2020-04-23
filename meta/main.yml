@@ -1,14 +1,15 @@
 ---
 galaxy_info:
-  author: flandi
+  author: borisskert
   description: Installs docker-compose on Ubuntu
-  issue_tracker_url: https://git.flandigt.de/ansible/install-docker-compose/issues
-  min_ansible_version: 1.2
+  min_ansible_version: 2.9
   platforms:
   - name: Ubuntu
     versions:
     - trusty
     - xenial
+    - bionic
+    - focal
   categories:
   - development
   - packaging
