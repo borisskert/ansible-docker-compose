@@ -2,36 +2,35 @@
 
 Installs docker-compose on ubuntu (or other Linux-based systems).
 
-# Role Parameters
+## Role Parameters
 
 | Parameter name         | Description                                              | Default value             |
 |------------------------|----------------------------------------------------------|---------------------------|
 | version | Specifies the version of docker-compose to be installed  | [empty] => latest version |
 
-# Usage
+## Usage
 
-## requirements.yml
+### Add to `requirements.yml`
 
-```
+```yaml
 - name: install-docker-compose
-  src: git@github.com:flandiGT/ansible-docker-compose.git
+  src: https://github.com/borisskert/ansible-docker-compose.git
   scm: git
 ```
 
-Example Playbook
-----------------
+### Example Playbooks
 
-Example without parameters
+Minimal:
 
-```
+```yaml
 - hosts: servers
   roles:
   - install-docker-compose
 ```
 
-Example with parameters
+All parameters:
 
-```
+```yaml
 - hosts: servers
   roles:
   - role: install-docker-compose
