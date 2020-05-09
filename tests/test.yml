@@ -1,6 +1,6 @@
 ---
 - hosts: test_machine
-  become: yes
+  become: true
 
   roles:
     - role: install-docker
@@ -20,13 +20,13 @@
         dest: /tmp/docker-compose.yml
 
     - name: test -- pull nginx docker image
-      shell: docker-compose pull
+      command: docker-compose pull
       args:
         chdir: /tmp
       changed_when: false
 
     - name: test -- run nginx docker image
-      shell: docker-compose up -d
+      command: docker-compose up -d
       args:
         chdir: /tmp
       changed_when: false

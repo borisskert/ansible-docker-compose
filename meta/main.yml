@@ -3,15 +3,16 @@ galaxy_info:
   author: borisskert
   description: Installs docker-compose on Ubuntu
   min_ansible_version: 2.9
+  license: MIT
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
-    - xenial
-    - bionic
-    - focal
-  categories:
-  - development
-  - packaging
-  - system
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+        - bionic
+        - focal
+  galaxy_tags:
+    - development
+    - packaging
+    - system
 dependencies: []

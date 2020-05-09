@@ -1,29 +1,38 @@
 ---
 - name: Estimate if installed
   stat:
-    path: "{{docker_compose_bin_path}}"
+    path: "{{ docker_compose_bin_path }}"
   register: docker_compose_bin
 
 - name: Estimate installed version
-  shell: "{{docker_compose_bin_path}} --version"
+  command: "{{ docker_compose_bin_path }} --version"
   when: docker_compose_bin.stat.exists
   register: docker_compose_installed_version
   changed_when: false
 
 - name: Try to parse installed version
   set_fact:
-    installed_version: "{{ docker_compose_installed_version.stdout | regex_search(regexp,'\\1') | first }}"
+    installed_version: "{{
+      docker_compose_installed_version.stdout
+      | regex_search(regexp,'\\1')
+      | first
+      }}"
   vars:
-    regexp: '^docker-compose version ([0-9]+\.[0-9][0-9]+\.[0-9]+), build [a-z0-9]+$'
+    regexp: ^docker-compose version ([0-9]+\.[0-9][0-9]+\.[0-9]+), build [a-z0-9]+$  # yamllint disable-line rule:line-length
   when: docker_compose_installed_version.stdout is defined
-  ignore_errors: True
+  ignore_errors: true
 
 - name: Try to parse installed version (old)
   set_fact:
-    installed_version: "{{ docker_compose_installed_version.stdout | regex_search(regexp,'\\1') | first }}"
+    installed_version: "{{
+      docker_compose_installed_version.stdout
+      | regex_search(regexp,'\\1')
+      | first
+      }}"
   vars:
     regexp: '^docker-compose version: ([0-9]+\.[0-9]+\.[0-9]+)$'
-  when: docker_compose_installed_version.stdout is defined and installed_version is not defined
+  when: docker_compose_installed_version.stdout is defined
+    and installed_version is not defined
 
 - debug:
     msg: "Installed version: {{ installed_version }}"
