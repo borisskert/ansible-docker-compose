@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+
+lint: |
+  set -e
+  yamllint . --strict
+  ansible-lint
+
+driver:
+  name: docker
+
+platforms:
+  - name: docker-compose-debian
+    image: pycontribs/debian
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      docker-compose-debian:
+        ansible_python_interpreter: /usr/bin/python3
+
+verifier:
+  name: ansible

@@ -1,4 +1,10 @@
 ---
+# Need to estimate latest docker-compose version from github
+- name: Install git
+  package:
+    name: git
+    state: present
+
 # I will not use the git module here cause I will
 # not install a module named 'github3' for one single task
 - name: Estimate latest version  # noqa 303

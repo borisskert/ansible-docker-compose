@@ -1,0 +1,4 @@
+---
+- name: install-docker
+  src: https://github.com/borisskert/ansible-docker.git
+  scm: git

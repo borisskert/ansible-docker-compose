@@ -1,0 +1,32 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+
+platforms:
+  - name: ansible-docker-compose-xenial
+    box: ubuntu/xenial64
+  - name: ansible-docker-compose-bionic
+    box: ubuntu/bionic64
+  - name: ansible-docker-compose-focal
+    box: ubuntu/focal64
+  - name: ansible-docker-compose-stretch
+    box: debian/stretch64
+  - name: ansible-docker-compose-buster
+    box: debian/buster64
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      ansible-docker-compose-buster:
+        ansible_python_interpreter: /usr/bin/python3
+      ansible-docker-compose-stretch:
+        ansible_python_interpreter: /usr/bin/python3
+
+verifier:
+  name: ansible

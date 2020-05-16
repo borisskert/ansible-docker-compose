@@ -1,0 +1,41 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Should provide docker-compose executable
+      command: docker-compose --version
+      changed_when: false
+
+    - name: Create docker-compose file
+      copy:
+        content: |
+          version: '3'
+          services:
+            nginx:
+              image: nginx:1.17.9-alpine
+              ports:
+                - 8080:80
+                - 8443:443
+        dest: /tmp/docker-compose.yml
+
+    - name: Should pull nginx image via compose file
+      command: docker-compose pull
+      args:
+        chdir: /tmp
+      changed_when: false
+
+    - name: Should run nginx docker image via compose file
+      command: docker-compose up -d
+      args:
+        chdir: /tmp
+      changed_when: false
+
+    - name: Should GET root site
+      get_url:
+        url: http://localhost:8080/
+        dest: /tmp/root.html
+      register: get_request
+      failed_when: get_request.status_code != 200
+        and get_request.md5 != 'e3eb0a1df437f3f97a64aca5952c8ea0'
