@@ -5,4 +5,4 @@
 
   roles:
     - role: ansible-docker-compose
-      version: 1.25.5
+      docker_compose_version: 1.25.5

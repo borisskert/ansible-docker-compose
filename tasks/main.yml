@@ -7,6 +7,11 @@
 
 - include: estimate_version_to_be_installed.yml
 
+- name: Setup facts for download link
+  set_fact:
+    kernel_name: Linux
+    machine: x86_64
+
 - name: Download bin file
   get_url:
     url:

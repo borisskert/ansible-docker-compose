@@ -15,7 +15,7 @@ Installs docker-compose on ubuntu (or other Linux-based systems).
 
 | Parameter name         | Description                                              | Default value             |
 |------------------------|----------------------------------------------------------|---------------------------|
-| version | Specifies the version of docker-compose to be installed  | [empty] => latest version |
+| docker_compose_version | Specifies the version of docker-compose to be installed  | [empty] => latest version |
 
 ## Usage
 
@@ -43,7 +43,7 @@ All parameters:
 - hosts: servers
   roles:
   - role: install-docker-compose
-    version: 1.21.1
+    docker_compose_version: 1.21.1
 ```
 
 ## Testing
