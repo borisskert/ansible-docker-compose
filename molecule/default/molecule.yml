@@ -4,25 +4,60 @@ dependency:
   options:
     role-file: ./molecule/shared/requirements.yml
 
+lint: |
+  set -e
+  yamllint . --strict
+  ansible-lint
+
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: docker
 
 platforms:
-  - name: ansible-docker-compose-xenial
-    box: ubuntu/xenial64
-  - name: ansible-docker-compose-bionic
-    box: ubuntu/bionic64
   - name: ansible-docker-compose-focal
-    box: ubuntu/focal64
-  - name: ansible-docker-compose-stretch
-    box: debian/stretch64
+    image: docker.io/borisskert/python3:focal
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
     groups:
-      - debian
+      - docker
+
+  - name: ansible-docker-compose-bionic
+    image: docker.io/borisskert/python3:bionic
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
+
+  - name: ansible-docker-compose-xenial
+    image: docker.io/borisskert/python3:xenial
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
+
   - name: ansible-docker-compose-buster
-    box: debian/buster64
+    image: docker.io/borisskert/python3:buster
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
     groups:
+      - docker
+      - debian
+
+  - name: ansible-docker-compose-stretch
+    image: docker.io/borisskert/python3:stretch
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
       - debian
 
 provisioner:

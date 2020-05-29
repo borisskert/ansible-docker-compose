@@ -4,4 +4,5 @@
   become: true
 
   roles:
-    - ansible-docker-compose
+    - role: ansible-docker-compose
+      version: 1.25.5

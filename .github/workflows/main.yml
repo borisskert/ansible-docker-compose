@@ -18,12 +18,7 @@ jobs:
         with:
           path: "${{ github.repository }}"
 
-      - name: lint and test with molecule for ubuntu
-        uses: borisskert/molecule-action@v0.0
+      - name: lint and test with molecule
+        uses: borisskert/molecule-action@v0.1
         with:
-          arguments: test --scenario-name ubuntu
-
-      - name: lint and test with molecule for debian
-        uses: borisskert/molecule-action@v0.0
-        with:
-          arguments: test --scenario-name debian
+          arguments: test

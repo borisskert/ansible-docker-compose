@@ -1,0 +1,25 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+
+  roles:
+    - role: install-docker
+      storage_driver: overlay2
+      cleanup_enabled: false
+      install_pip_docker: true
+
+  post_tasks:
+    - name: clean up potential existing nginx docker container
+      docker_container:
+        name: "{{ test_container_name }}"
+        state: absent
+        force_kill: true
+      failed_when: false
+
+    - name: clean up potential nginx docker image
+      docker_image:
+        name: "{{ test_image_to_pull }}"
+        state: absent
+        force_absent: true
+      failed_when: false

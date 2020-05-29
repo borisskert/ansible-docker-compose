@@ -1,7 +1,0 @@
----
-- name: Verify
-  hosts: all
-
-  tasks:
-    - name: Perform verify
-      include: ../shared/verify.yml

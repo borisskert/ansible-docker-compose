@@ -1,50 +1,60 @@
 ---
-- name: Should provide docker-compose executable
-  command: docker-compose --version
-  changed_when: false
+- name: Verify
+  hosts: all
+  become: true
 
-- name: Create docker-compose file
-  copy:
-    content: |
-      version: '3'
-      services:
-        nginx:
-          image: nginx:1.17.9-alpine
-          container_name: my_web
-          ports:
-            - 8080:80
-            - 8443:443
-    dest: /tmp/docker-compose.yml
+  tasks:
+    - name: Should provide docker-compose executable
+      command: docker-compose --version
+      changed_when: false
 
-- name: Should pull nginx image via compose file
-  command: docker-compose pull
-  args:
-    chdir: /tmp
-  changed_when: false
+    - name: Create docker-compose file
+      copy:
+        content: |
+          version: '3'
+          services:
+            {{ test_container_name }}:
+              image: {{ test_image_to_pull }}
+              container_name: {{ test_container_name }}
+              ports:
+                - {{ test_port }}:80
+              networks:
+                  {{ docker_network }}:
+          networks:
+            {{ docker_network }}:
+        dest: /tmp/docker-compose.yml
 
-- name: Should run nginx docker image via compose file
-  command: docker-compose up -d
-  args:
-    chdir: /tmp
-  changed_when: false
+    - name: Should pull nginx image via compose file
+      command: docker-compose pull
+      args:
+        chdir: /tmp
+      changed_when: false
 
-- name: Should GET root site
-  get_url:
-    url: http://172.17.0.1:8080/
-    dest: /tmp/root.html
-  register: get_request
-  failed_when: get_request.status_code != 200
-    and get_request.md5 != 'e3eb0a1df437f3f97a64aca5952c8ea0'
+    - name: Should run nginx docker image via compose file
+      command: docker-compose up -d
+      args:
+        chdir: /tmp
+      changed_when: false
 
-# clean up the created docker image and container
-- name: delete nginx docker container
-  docker_container:
-    name: my_web
-    state: absent
-  failed_when: false
+    - name: Should GET root site
+      get_url:
+        url: "http://172.17.0.1:{{ test_port }}/"
+        dest: /tmp/root.html
+      register: get_request
+      failed_when: get_request.status_code != 200
+        and get_request.md5 != 'e3eb0a1df437f3f97a64aca5952c8ea0'
 
-- name: should delete nginx docker image
-  docker_image:
-    name: nginx:1.17.9-alpine
-    state: absent
-  failed_when: false
+  post_tasks:
+    # clean up the created docker image and container
+    - name: delete nginx docker container
+      docker_container:
+        name: "{{ test_container_name }}"
+        state: absent
+        force_kill: true
+      failed_when: false
+
+    - name: should delete nginx docker image
+      docker_image:
+        name: "{{ test_image_to_pull }}"
+        state: absent
+      failed_when: false
