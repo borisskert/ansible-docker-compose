@@ -1,0 +1,15 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Should provide docker-compose executable
+      command: docker-compose --version
+      changed_when: false
+      register: docker_compose_version
+      failed_when:
+        docker_compose_version.stdout == 'docker-compose version 1.26.2, build eefe0d31'
+        or docker_compose_version.stdout
+          | regex_search('docker-compose version [0-9]+\.[0-9]+\.[0-9]+, build [0-9a-f]{8}')
+          | length < 1

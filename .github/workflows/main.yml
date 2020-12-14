@@ -18,7 +18,22 @@ jobs:
         with:
           path: "${{ github.repository }}"
 
-      - name: lint and test with molecule
-        uses: borisskert/molecule-action@v0.1
+      - name: Run default tests
+        uses: borisskert/molecule-action@v20.11.28
         with:
           arguments: test
+
+      - name: Run 'install-specific-version' tests
+        uses: borisskert/molecule-action@v20.11.28
+        with:
+          arguments: test -s install-specific-version
+
+      - name: Run 'upgrade-to-latest-version' tests
+        uses: borisskert/molecule-action@v20.11.28
+        with:
+          arguments: test -s upgrade-to-latest-version
+
+      - name: Run 'upgrade-to-specific-version' tests
+        uses: borisskert/molecule-action@v20.11.28
+        with:
+          arguments: test -s upgrade-to-specific-version

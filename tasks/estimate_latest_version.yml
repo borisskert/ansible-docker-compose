@@ -17,13 +17,13 @@
     | tail -n 1
   args:
     executable: /bin/bash
-  register: latest_compose_version
+  register: docker_compose_latest_available_version
   changed_when: false
 
 - name: Use estimated version
   set_fact:
-    latest_version: "{{ latest_compose_version.stdout }}"
+    docker_compose_latest_version: "{{ docker_compose_latest_available_version.stdout }}"
 
 - debug:
-    msg: "Latest available version: {{ latest_version }}"
-  when: latest_version is defined
+    msg: "Latest available version: {{ docker_compose_latest_version }}"
+  when: docker_compose_latest_version is defined

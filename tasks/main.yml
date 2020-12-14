@@ -2,8 +2,8 @@
 - include: estimate_installed_version.yml
 
 - include: estimate_latest_version.yml
-  when: version is not defined
-    or version | length < 1
+  when: docker_compose_version is not defined
+    or docker_compose_version | length < 1
 
 - include: estimate_version_to_be_installed.yml
 
@@ -21,5 +21,5 @@
     dest: "{{ docker_compose_bin_path }}"
     mode: 0755
     force: true
-  when: installed_version is not defined
-    or version_to_be_installed != installed_version
+  when: docker_compose_installed_version_output is not defined
+    or version_to_be_installed != docker_compose_installed_version_output
