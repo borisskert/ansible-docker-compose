@@ -1,25 +1,6 @@
 ---
-- include: estimate_installed_version.yml
+- include: download-from-github/main.yml
+  when: not (docker_compose_install_from_pip | bool)
 
-- include: estimate_latest_version.yml
-  when: docker_compose_version is not defined
-    or docker_compose_version | length < 1
-
-- include: estimate_version_to_be_installed.yml
-
-- name: Setup facts for download link
-  set_fact:
-    kernel_name: Linux
-    machine: x86_64
-
-- name: Download bin file
-  get_url:
-    url:
-      "https://github.com/docker/compose/releases/\
-      download/{{ version_to_be_installed }}/\
-      docker-compose-{{ kernel_name }}-{{ machine }}"
-    dest: "{{ docker_compose_bin_path }}"
-    mode: 0755
-    force: true
-  when: docker_compose_installed_version_output is not defined
-    or version_to_be_installed != docker_compose_installed_version_output
+- include: install-from-pip/main.yml
+  when: docker_compose_install_from_pip | bool

@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Should install package from pip
+      pip:
+        name: docker-compose
+        state: present
+        executable: pip3
+      register: docker_compose_pip_package
+      failed_when:
+        docker_compose_pip_package.failed | bool
+        or docker_compose_pip_package.changed | bool
+
+    - name: Should provide docker-compose executable
+      command: docker-compose --version
+      changed_when: false
+      register: docker_compose_version
+      failed_when:
+        docker_compose_version.stdout != 'docker-compose version 1.26.2, build unknown'

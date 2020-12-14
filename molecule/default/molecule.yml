@@ -12,26 +12,7 @@ driver:
 
 platforms:
   - name: ansible-docker-compose-focal
-    image: docker.io/borisskert/python3:focal
-    pull: true
-    pre_build_image: true
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    groups:
-      - docker
-
-  - name: ansible-docker-compose-bionic
-    image: docker.io/borisskert/python3:bionic
-    pull: true
-    pre_build_image: true
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    groups:
-      - docker
-
-  - name: ansible-docker-compose-xenial
-    image: docker.io/borisskert/python3:xenial
-    pull: true
+    image: borisskert/python3:focal
     pre_build_image: true
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
@@ -39,18 +20,7 @@ platforms:
       - docker
 
   - name: ansible-docker-compose-buster
-    image: docker.io/borisskert/python3:buster
-    pull: true
-    pre_build_image: true
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-    groups:
-      - docker
-      - debian
-
-  - name: ansible-docker-compose-stretch
-    image: docker.io/borisskert/python3:stretch
-    pull: true
+    image: borisskert/python3:buster
     pre_build_image: true
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'

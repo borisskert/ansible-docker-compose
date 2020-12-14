@@ -9,13 +9,15 @@ Installs docker-compose on ubuntu (or other Linux-based systems).
   * bionic
   * focal
 * Debian
-  * 
+  * buster
+  * stretch
 
 ## Role Parameters
 
-| Parameter name         | Description                                              | Default value             |
-|------------------------|----------------------------------------------------------|---------------------------|
-| docker_compose_version | Specifies the version of docker-compose to be installed  | [empty] => latest version |
+| Variable      | Type | Mandatory? | Default | Description           |
+|---------------|------|------------|---------|-----------------------|
+| docker_compose_version | version number | no   | `''`    | Specifies the version of `docker-compose` to be installed |
+| docker_compose_install_from_pip | boolean | no | `false` | Specifies if `docker-compose` will be installed from the `pip` package manager |
 
 ## Usage
 
@@ -44,14 +46,13 @@ All parameters:
   roles:
   - role: install-docker-compose
     docker_compose_version: 1.21.1
+    docker_compose_install_from_pip: false
 ```
 
 ## Testing
 
 Requirements:
 
-* [Vagrant](https://www.vagrantup.com/)
-* [VirtualBox](https://www.virtualbox.org/)
 * [Ansible](https://docs.ansible.com/)
 * [Molecule](https://molecule.readthedocs.io/en/latest/index.html)
 * [yamllint](https://yamllint.readthedocs.io/en/stable/#)
@@ -61,12 +62,26 @@ Requirements:
 ### Run within docker
 
 ```shell script
-molecule test --scenario-name ubuntu
-molecule test --scenario-name debian
+molecule test
+molecule test --scenario-name install-specific-version
+molecule test --scenario-name upgrade-to-latest-version
+molecule test --scenario-name upgrade-to-specific-version
+molecule test --scenario-name install-latest-version-from-pip
+molecule test --scenario-name install-specific-version-from-pip
 ```
 
-### Run within Vagrant
+I recommend to use [pyenv](https://github.com/pyenv/pyenv) for local testing.
+Within the Github Actions pipeline I use [my own molecule Docker image](https://github.com/borisskert/docker-molecule).
 
-```shell script
-molecule test --scenario-name vagrant --parallel
-```
+
+## License
+
+MIT
+
+## Author Information
+
+* [borisskert](https://github.com/borisskert)
+
+## Links
+
+* [docker-compose @ github](https://github.com/docker/compose)
