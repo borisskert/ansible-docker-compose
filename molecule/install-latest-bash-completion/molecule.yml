@@ -1,0 +1,41 @@
+---
+dependency:
+  name: galaxy
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
+driver:
+  name: docker
+
+platforms:
+  - name: ansible-docker-compose-focal
+    image: borisskert/python3:focal
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
+
+  - name: ansible-docker-compose-buster
+    image: borisskert/python3:buster
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
+      - debian
+
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      docker:
+        molecule_docker_environment: true
+      debian:
+        ansible_python_interpreter: /usr/bin/python3
+
+verifier:
+  name: ansible

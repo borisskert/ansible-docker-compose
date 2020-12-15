@@ -4,3 +4,6 @@
 
 - include: install-from-pip/main.yml
   when: docker_compose_install_from_pip | bool
+
+- include: install-bash-completion/main.yml
+  when: docker_compose_bash_completion | bool

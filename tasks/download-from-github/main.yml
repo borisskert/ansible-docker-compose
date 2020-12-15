@@ -21,5 +21,6 @@
     dest: "{{ docker_compose_bin_path }}"
     mode: 0755
     force: true
+  register: docker_compose_downloaded_from_github
   when: docker_compose_installed_version_output is not defined
     or version_to_be_installed != docker_compose_installed_version_output

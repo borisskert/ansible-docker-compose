@@ -18,7 +18,7 @@
       | first
       }}"
   vars:
-    regexp: ^docker-compose version ([0-9]+\.[0-9][0-9]+\.[0-9]+), build [a-z0-9]+$  # yamllint disable-line rule:line-length
+    regexp: ^docker-compose version ([0-9]+\.[0-9][0-9]+\.[0-9]+), build ([a-z0-9]+|unknown)$
   when: docker_compose_installed_version_output.stdout is defined
   ignore_errors: true
 

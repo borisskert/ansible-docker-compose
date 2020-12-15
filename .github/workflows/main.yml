@@ -47,3 +47,13 @@ jobs:
         uses: borisskert/molecule-action@v20.11.28
         with:
           arguments: test -s install-specific-version-from-pip
+
+      - name: Run 'install-latest-bash-completion' tests
+        uses: borisskert/molecule-action@v20.11.28
+        with:
+          arguments: test -s install-latest-bash-completion
+
+      - name: Run 'install-specific-bash-completion' tests
+        uses: borisskert/molecule-action@v20.11.28
+        with:
+          arguments: test -s install-specific-bash-completion

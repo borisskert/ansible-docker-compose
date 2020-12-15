@@ -7,9 +7,15 @@
     - name: Should provide docker-compose executable
       command: docker-compose --version
       changed_when: false
-      register: docker_compose_version
+      register: docker_compose_installed_version_output
       failed_when:
-        docker_compose_version.stdout
+        docker_compose_installed_version_output.stdout
         | regex_search('docker-compose version [0-9]+\.[0-9]+\.[0-9]+, build [0-9a-f]{8}')
         | default('')
         | length < 1
+
+    - name: Should NOT download bash-completion file
+      stat:
+        path: /etc/bash_completion.d/docker-compose
+      register: bash_completion_file
+      failed_when: bash_completion_file.stat.exists

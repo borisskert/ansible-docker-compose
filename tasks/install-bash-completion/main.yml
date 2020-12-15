@@ -1,0 +1,33 @@
+---
+- name: Install bash-completion package
+  package:
+    name: bash-completion
+    state: present
+    update_cache: true
+
+- name: Create bash-completion settings directory
+  file:
+    path: /etc/bash_completion.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- include: ../download-from-github/estimate_installed_version.yml
+
+- name: Estimate docker-compose bash-completion file stats
+  stat:
+    path: /etc/bash_completion.d/docker-compose
+  register: docker_compose_bash_completion_file
+
+- name: Download bash-completion file  # noqa 503
+  get_url:
+    url:
+      "https://raw.githubusercontent.com/docker/\
+      compose/{{ docker_compose_installed_version }}/contrib/completion/bash/docker-compose"
+    dest: /etc/bash_completion.d/docker-compose
+    mode: 0644
+    force: true
+  when: not docker_compose_bash_completion_file.stat.exists
+    or docker_compose_downloaded_from_github.changed
+    or docker_compose_installed_from_pip.changed

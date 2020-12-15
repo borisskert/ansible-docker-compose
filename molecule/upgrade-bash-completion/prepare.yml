@@ -5,4 +5,3 @@
 
   roles:
     - role: ansible-docker-compose
-      docker_compose_bash_completion: true

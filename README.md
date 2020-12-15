@@ -18,6 +18,7 @@ Installs docker-compose on ubuntu (or other Linux-based systems).
 |---------------|------|------------|---------|-----------------------|
 | docker_compose_version | version number | no   | `''`    | Specifies the version of `docker-compose` to be installed |
 | docker_compose_install_from_pip | boolean | no | `false` | Specifies if `docker-compose` will be installed from the `pip` package manager |
+| docker_compose_bash_completion  | boolean | no | `false` | Specifies if `docker-compose`'s bash-completion will be installed |
 
 ## Usage
 
@@ -47,6 +48,7 @@ All parameters:
   - role: install-docker-compose
     docker_compose_version: 1.21.1
     docker_compose_install_from_pip: false
+    docker_compose_bash_completion: true
 ```
 
 ## Testing
@@ -68,6 +70,8 @@ molecule test --scenario-name upgrade-to-latest-version
 molecule test --scenario-name upgrade-to-specific-version
 molecule test --scenario-name install-latest-version-from-pip
 molecule test --scenario-name install-specific-version-from-pip
+molecule test --scenario-name install-latest-bash-completion
+molecule test --scenario-name install-specific-bash-completion
 ```
 
 I recommend to use [pyenv](https://github.com/pyenv/pyenv) for local testing.

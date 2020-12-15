@@ -19,5 +19,6 @@
     name: docker-compose
     state: latest  # noqa 403
     executable: pip3
+  register: docker_compose_installed_from_pip
   when: docker_compose_version is not defined
     or docker_compose_version | length < 1
